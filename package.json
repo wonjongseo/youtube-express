@@ -1,0 +1,28 @@
+{
+    "name": "youtube",
+    "version": "1.0.0",
+    "description": "youtube using youtube",
+    "scripts": {
+        "dev": "nodemon --exec babel-node src/server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/wonjongseo/youtube-express.git"
+    },
+    "author": "jongseo",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/wonjongseo/youtube-express/issues"
+    },
+    "homepage": "https://github.com/wonjongseo/youtube-express#readme",
+    "dependencies": {
+        "express": "^4.18.0",
+        "morgan": "^1.10.0"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.17.9",
+        "@babel/node": "^7.16.8",
+        "@babel/preset-env": "^7.16.11",
+        "nodemon": "^2.0.15"
+    }
+}
