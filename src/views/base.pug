@@ -5,13 +5,11 @@ html(lang="en")
         title #{pageTitle} 
     body
         header
-            nav
+            h1=pageTitle
+            nav 
                 ul 
                     li
-                        a(href="/logout") Log out
-                    li
-                        a(href="/login") Login    
-            h1=pageTitle
+                        a(href="/videos/upload") Upload video
         main
             block content 
 

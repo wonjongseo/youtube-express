@@ -1,4 +1,6 @@
 extends base
 
 block content
-    h1 edit
+    form(method="POST")
+        input(name="title", value=video.title)
+        input(value="Save", type="submit")

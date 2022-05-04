@@ -7,6 +7,8 @@ import videoRouter from "./routers/videoRouter";
 const PORT = 4000;
 const app = express();
 app.use(morgan("dev"));
+// form 으로부터 받은 데이터를 javascript object 형태로 바꿔줌.
+app.use(express.urlencoded({extended: true}));
 app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
 
