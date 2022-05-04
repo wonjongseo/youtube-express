@@ -5,16 +5,12 @@ html(lang="en")
         title #{pageTitle} 
     body
         header
-            if fakeUser.loggedIn
-                small #{fakeUser.username} Hello~
             nav
                 ul 
-                    if fakeUser.loggedIn
-                        li
-                            a(href="/logout") Log out
-                    else
-                        li
-                            a(href="/login") Login    
+                    li
+                        a(href="/logout") Log out
+                    li
+                        a(href="/login") Login    
             h1=pageTitle
         main
             block content 
