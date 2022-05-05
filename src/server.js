@@ -4,7 +4,6 @@ import globalRouter from "./routers/globalRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 
-const PORT = 4000;
 const app = express();
 app.use(morgan("dev"));
 // form 으로부터 받은 데이터를 javascript object 형태로 바꿔줌.
@@ -16,7 +15,4 @@ app.use("/", globalRouter);
 app.use("/users", userRouter);
 app.use("/videos", videoRouter);
 
-const handleListening = () =>
-    console.log(`Server listening on http://localhost:${PORT}`);
-
-app.listen(PORT, handleListening);
+export default app;
