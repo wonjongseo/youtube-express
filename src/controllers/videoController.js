@@ -1,14 +1,16 @@
 import Video from "../models/Video";
 
 export const home = (req, res) => {
-    return res.render("home", {pageTitle: "Home"});
+    return res.render("home", {pageTitle: "Home", videos: []});
 };
 
 export const watch = (req, res) => {
     const {id} = req.params;
     const video = videos[id - 1];
 
-    return res.render("watch", {pageTitle: `Watching ${video.title}`});
+    return res.render("watch", {
+        pageTitle: `Watching ${video.title}`,
+    });
 };
 export const getEdit = (req, res) => {
     const {id} = req.params;
@@ -32,7 +34,19 @@ export const getUpload = (req, res, next) => {
 };
 
 export const postUpload = (req, res, next) => {
-    // ww
+    const {title, description, hashtags} = req.body;
 
+    const video = new Video({
+        title,
+        description,
+        hashtags: hashtags.split(",").map((word) => `#${word}`),
+        createdAt: Date.now(),
+        meta: {
+            views: 0,
+            rating: 0,
+        },
+    });
+
+    console.log(video);
     return res.redirect("/");
 };
