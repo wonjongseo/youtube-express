@@ -1,5 +1,10 @@
 import Video from "../models/Video";
 
+export const deleteAll = async (req, res, next) => {
+    await Video.deleteMany({});
+    return res.redirect("/");
+};
+
 export const home = async (req, res) => {
     const videos = await Video.find({});
     return res.render("home", {pageTitle: "Home", videos});
@@ -44,7 +49,7 @@ export const postEdit = async (req, res) => {
     await Video.findByIdAndUpdate(id, {
         title,
         description,
-        hashtags: hashtags.split(",").map((word) => `#${word}`),
+        hashtags: Video.formatHastags(hashtags),
     });
 
     return res.redirect(`/videos/${id}`);
@@ -60,12 +65,12 @@ export const getUpload = (req, res, next) => {
 
 export const postUpload = async (req, res, next) => {
     const {title, description, hashtags} = req.body;
-    // ssss
+
     try {
         await Video.create({
             title,
             description,
-            hashtags: hashtags.split(",").map((word) => `#${word}`),
+            hashtags: Video.formatHastags(hashtags),
         });
     } catch (error) {
         return res.render("upload", {
