@@ -3,4 +3,6 @@ extends base
 block content
     form(method="POST")
         input(name="title", value=video.title)
+        input(name="description" value=video.description placeholder="Description"  type="text" required, maxlength=100)
+        input(name="hashtags" value=video.hashtags.join() placeholder="Hashtags, separeated by comma."  type="text" required)
         input(value="Save", type="submit")
