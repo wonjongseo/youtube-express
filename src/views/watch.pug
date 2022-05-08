@@ -2,6 +2,8 @@ extends base
 
 
 block content
-    h1 Watch
+    div 
+        p=video.description
+        small=video.createdAt
     h4 
         a(href=`${video.id}/edit`) Editing &rarr;
