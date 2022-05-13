@@ -2,7 +2,7 @@ doctype html
 html(lang="en")
     head
         link(rel="stylesheet" href="https://unpkg.com/mvp.css")
-        title #{pageTitle} 
+        title #{pageTitle} | #{siteName}
     body
         header
             h1=pageTitle
@@ -14,6 +14,24 @@ html(lang="en")
                         a(href="/videos/upload") Upload video
                     li
                         a(href="/search") Search video
+                    if !loggedIn
+                        li
+                            a(href="/join") Join
+                        li
+                            a(href="/login") Login
+                    else 
+                        li
+                            a(href="/logout") Logout
+                        li
+                            a(href="/edit-profile") #{loggedInUser.name} s' Profile
+                    li 
+                    li
+                    li
+                    li
+                    
+                    li
+                        a(href="/users/deleteAll") Delete All Users
+                        
                     li
                         a(href="/videos/deleteAll") Delete All video
         main
