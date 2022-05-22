@@ -13,13 +13,19 @@ app.use(morgan("dev"));
 app.use(express.urlencoded({extended: true}));
 app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
+
 app.use(
     session({
-        secret: "Hello!",
-        resave: true,
-        saveUninitialized: true,
+        secret: process.env.COOKIE_SECRET,
+        // 로그인한 유저에게만 세션아이디를 부여하고 데이터베이스에도 저장시킴 ( 세션이 수정됬을떄만)
+        resave: false,
+        saveUninitialized: false,
+        //sessioin cookie == 브라우저 프로레스를 닫으면 지원짐
+        cookie: {
+            maxAge: 1000 * 60 * 60,
+        },
         store: MongoStore.create({
-            mongoUrl: "mongodb://127.0.0.1:27017/youtube",
+            mongoUrl: process.env.DB_URL,
         }),
     })
 );
