@@ -31,7 +31,7 @@ export const getEdit = async (req, res) => {
     if (!video) {
         return res.status(404).render("404", {pageTitle: "Video Not Found"});
     }
-    return res.render("edit", {
+    return res.render("edit-video", {
         pageTitle: `Editing ${video.title}`,
         video,
     });

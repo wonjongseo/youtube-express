@@ -6,8 +6,10 @@ export const getJoin = (req, res) => {
     return res.render("join", {pageTitle: "Join"});
 };
 export const postJoin = async (req, res) => {
+    console.log(req.body);
     const {name, username, email, password, password2, location} = req.body;
     if (password !== password2) {
+        console.log("1");
         return res.status(400).render("join", {
             pageTitle: "Join",
             errorMessage: "Password confirmation does not match.",
@@ -15,6 +17,7 @@ export const postJoin = async (req, res) => {
     }
     const existingUser = await User.exists({$or: [{username}, {email}]});
     if (existingUser) {
+        console.log("2");
         return res.status(400).render("join", {
             pageTitle: "Join",
             errorMessage: "This username/email is already taken.",
@@ -30,6 +33,7 @@ export const postJoin = async (req, res) => {
         });
         return res.redirect("/login");
     } catch (error) {
+        console.log("3");
         return res.status(400).render("join", {
             pageTitle: "Join",
             errorMessage: error._message,
@@ -149,7 +153,37 @@ export const finishGithubLogin = async (req, res) => {
         return res.redirect("/login");
     }
 };
-export const edit = (req, res) => res.send("Edit User");
+export const getEdit = (req, res) => {
+    const user = req.session.user;
+
+    return res.render("edit-profile", {
+        pageTitle: `${user.name}'s Edit Profile`,
+    });
+};
+
+export const postEdit = async (req, res, next) => {
+    const {
+        session: {
+            user: {_id},
+        },
+    } = req;
+    const {name, username, email, location} = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(
+        _id,
+        {
+            name,
+            username,
+            email,
+            location,
+        },
+        {new: true}
+    );
+
+    req.session.user = updatedUser;
+
+    return res.redirect("/");
+};
 export const remove = (req, res) => res.send("Remove User");
 
 export const logout = (req, res) => {
@@ -157,3 +191,32 @@ export const logout = (req, res) => {
     return res.redirect("/");
 };
 export const see = (req, res) => res.send("See User");
+
+export const getChangePassword = (req, res, next) => {
+    if (req.session.socialOnly === true) return res.redirect("/");
+
+    return res.render("change-password", {pageTitle: "Change Password"});
+};
+
+export const postChangePassword = async (req, res, next) => {
+    const {
+        session: {
+            user: {_id},
+        },
+    } = req;
+    const {password, new_password} = req.body;
+    const user = await User.findById(_id);
+
+    const ok = await bcrypt.compare(password, user.password);
+
+    if (!ok) {
+        return res.status(400).render("change-password", {
+            errorMessage: "The current Password is incorrect",
+        });
+    }
+
+    user.password = new_password;
+    await user.save();
+
+    return res.redirect("/users/logout");
+};

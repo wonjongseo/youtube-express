@@ -1,0 +1,14 @@
+extends base
+
+block content 
+    form(method="POST")
+        input(name="name", value=loggedInUser.name,required)
+        input(name="email",type=email value=loggedInUser.email,required)
+        input(name="username", value=loggedInUser.username,required)
+        input(name="location", value=loggedInUser.location)
+        input(type="submit", value="Edit")
+    
+    br
+    f
+    if !loggedInUser.socialOnly
+        a(href="/users/change-password") Change Password 
